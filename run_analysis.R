@@ -1,7 +1,7 @@
 ## run_analysis.R
 
 ProjectDirectory = getwd()
-DataDirectory = "UCI HAR Dataset/"
+DataDirectory = "./UCI HAR Dataset/"
 dataFile = "dataset.RData"    ### name of file to stash the slightly cooked data
 ## Download this just once! If you need it again, remove the DataDirectory
 sourceFile = "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
@@ -10,7 +10,7 @@ if (!file.exists(DataDirectory)) {
         "data.zip", "curl", quiet = TRUE, mode = "wb")
     unzip("data.zip")
     file.remove("data.zip")
-    whenDownloaded = now()
+    whenDownloaded = date()
 }
 stopifnot(file.exists(DataDirectory))
 print("just starting")
@@ -58,3 +58,13 @@ if (!file.exists(dataFile)) {                ## Put labels into vectors
  ##   rm(train, test, temp, Ytrain, Ytest, Xtrain, Xtest, trainSubjects, testSubjects, 
  ##       activityLabels, attributeNames, attNames)
 }
+## TIME TO MESS WITH HEADERNAMES
+wnames <- names(hold2)
+wnames <-sub("^f","FreqDomain",wnames)
+wnames <-sub("^t","TimeDomain",wnames)
+wnames <- sub("\\.{3}","\\.",wnames)
+wnames <- sub("\\.{2}","\\.",wnames)
+wnames <- sub("\\.$","",wnames)
+## LET'S PUT THE REVISED HEADER NAMES ON hold2
+names(hold2) <- wnames
+aggdata <- group_by(hold2, subject, Activity)
