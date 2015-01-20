@@ -54,7 +54,7 @@ if (!file.exists(dataFile)) {                ## Put labels into vectors
 
     save(hold, file = dataFile)
  ## select just the columns that are means and/or standard deviations, based on their names, also the keys!
-    hold2 <- hold %>% select(subject,Activity, contains("mean"), contains("std"))
+    hold2 <- hold %>% select(subject,Activity, contains("mean"), contains("std"), -starts_with("angle"))
  ##   rm(train, test, temp, Ytrain, Ytest, Xtrain, Xtest, trainSubjects, testSubjects, 
  ##       activityLabels, attributeNames, attNames)
 }
@@ -67,4 +67,9 @@ wnames <- sub("\\.{2}","\\.",wnames)
 wnames <- sub("\\.$","",wnames)
 ## LET'S PUT THE REVISED HEADER NAMES ON hold2
 names(hold2) <- wnames
+## GROUP by Subject and Activity
 aggdata <- group_by(hold2, subject, Activity)
+## Get the summary data (means of all the data columns)
+summdata <- aggdata %>%
+  summarise_each(funs(mean))
+write.table(summdata,file="tidyHAR.txt", row.names=FALSE)
