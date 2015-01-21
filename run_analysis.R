@@ -13,7 +13,7 @@ if (!file.exists(DataDirectory)) {
     whenDownloaded = date()
 }
 stopifnot(file.exists(DataDirectory))
-print("just starting")
+## print("just starting")
 ## Now start munging the data from test and train into two data frames that can be combined and stored
 ## Do this only once
 library(plyr)
@@ -54,7 +54,7 @@ if (!file.exists(dataFile)) {                ## Put labels into vectors
 
     save(hold, file = dataFile)
  ## select just the columns that are means and/or standard deviations, based on their names, also the keys!
-    hold2 <- hold %>% select(subject,Activity, contains("mean"), contains("std"), -starts_with("angle"))
+    hold2 <- hold %>% select(subject,Activity, contains("mean"), contains("std"), -starts_with("angle"), ignore.case = TRUE)
  ##   rm(train, test, temp, Ytrain, Ytest, Xtrain, Xtest, trainSubjects, testSubjects, 
  ##       activityLabels, attributeNames, attNames)
 }
