@@ -36,7 +36,7 @@ if (!file.exists(dataFile)) {                ## Put labels into vectors
     levels(Ytrain$Activity) = activityLabels
     trainSubjects = read.table("train/subject_train.txt", sep = "")
     names(trainSubjects) = "Subject"
-    trainSubjects$subject = as.factor(trainSubjects$subject)
+    trainSubjects$subject = as.factor(trainSubjects$Subject)
     train = cbind(Xtrain, trainSubjects, Ytrain)
 
     Xtest = read.table("test/X_test.txt", sep = "")
@@ -47,7 +47,7 @@ if (!file.exists(dataFile)) {                ## Put labels into vectors
     levels(Ytest$Activity) = activityLabels
     testSubjects = read.table("test/subject_test.txt", sep = "")   ### These are different people
     names(testSubjects) = "Subject"
-    testSubjects$subject = as.factor(testSubjects$subject)
+    testSubjects$subject = as.factor(testSubjects$Subject)
     test = cbind(Xtest, testSubjects, Ytest)
    print("ready with data") 
     ## The two data frames should look the same at this point
